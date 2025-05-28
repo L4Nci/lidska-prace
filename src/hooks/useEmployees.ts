@@ -34,8 +34,8 @@ export const useEmployees = () => {
         if (error) throw error
 
         setEmployees(data || [])
-      } catch (e) {
-        setError(e.message)
+      } catch (e: unknown) {
+        setError(e instanceof Error ? e.message : 'Unknown error occurred')
       } finally {
         setLoading(false)
       }

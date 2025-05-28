@@ -1,4 +1,3 @@
-import React from 'react'
 import CapacityCalculator from './components/CapacityCalculator'
 
 function App() {

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { useEmployees } from '../hooks/useEmployees'
 import { useShifts } from '../hooks/useShifts'
 import EmployeeList from './EmployeeList'
@@ -46,20 +46,18 @@ const CapacityCalculator = () => {
     
     let totalPickRate = 0
     let totalPackRate = 0
-    let regularPickRate = 0
-    let regularPackRate = 0
     
     selectedEmployees.forEach(empId => {
       const employee = employees.find(e => e.id === empId)
       if (employee) {
-        const pickRates = {
+        const pickRates: Record<number, number> = {
           1: employee.pick_rate_mon,
           2: employee.pick_rate_tue,
           3: employee.pick_rate_wed,
           4: employee.pick_rate_thu,
           5: employee.pick_rate_fri
         }
-        const packRates = {
+        const packRates: Record<number, number> = {
           1: employee.pack_rate_mon,
           2: employee.pack_rate_tue,
           3: employee.pack_rate_wed,
@@ -72,12 +70,6 @@ const CapacityCalculator = () => {
 
         totalPickRate += pickRate
         totalPackRate += packRate
-
-        // Počítáme zvlášť pro stálé zaměstnance
-        if (!employee.is_contractor) {
-          regularPickRate += pickRate
-          regularPackRate += packRate
-        }
       }
     })
 
@@ -85,8 +77,6 @@ const CapacityCalculator = () => {
       pickCapacity: totalPickRate,
       packCapacity: totalPackRate,
       totalCapacity: Math.min(totalPickRate, totalPackRate),
-      regularEmployeesPickCapacity: regularPickRate,
-      regularEmployeesPackCapacity: regularPackRate
     }
   }
 

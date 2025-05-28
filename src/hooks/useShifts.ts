@@ -22,8 +22,8 @@ export const useShifts = () => {
 
         if (error) throw error
         setShifts(data || [])
-      } catch (e) {
-        setError(e.message)
+      } catch (e: unknown) {
+        setError(e instanceof Error ? e.message : 'Unknown error occurred')
       } finally {
         setLoading(false)
       }
