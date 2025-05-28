@@ -46,6 +46,8 @@ const CapacityCalculator = () => {
     
     let totalPickRate = 0
     let totalPackRate = 0
+    let regularPickRate = 0
+    let regularPackRate = 0
     
     selectedEmployees.forEach(empId => {
       const employee = employees.find(e => e.id === empId)
@@ -70,6 +72,12 @@ const CapacityCalculator = () => {
 
         totalPickRate += pickRate
         totalPackRate += packRate
+
+        // Počítáme zvlášť pro stálé zaměstnance
+        if (!employee.is_contractor) {
+          regularPickRate += pickRate
+          regularPackRate += packRate
+        }
       }
     })
 
@@ -77,6 +85,8 @@ const CapacityCalculator = () => {
       pickCapacity: totalPickRate,
       packCapacity: totalPackRate,
       totalCapacity: Math.min(totalPickRate, totalPackRate),
+      regularEmployeesPickCapacity: regularPickRate,
+      regularEmployeesPackCapacity: regularPackRate
     }
   }
 
